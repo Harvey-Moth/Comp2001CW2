@@ -134,21 +134,9 @@ class User(db.Model):
             raise ValidationError('Invalid Role')
         return value
     
-    @validates('Username')
-    def validate_Username(self, value):
-        if len(value) < 1:
-            raise ValidationError('Invalid Username')
-        return value
-    
-    @validates('Password')
-    def validate_Password(self, value):
-        if len(value) < 1:
-            raise ValidationError('Invalid Password')
-        return value
-    
     @validates('Email')
     def validate_Email(self, value):
-        if len(value) < 1:
+        if len(value) < []:
             raise ValidationError('Invalid Email')
         return value
     
