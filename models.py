@@ -18,10 +18,10 @@ class Trail(db.Model):
     Pt1_Lat = db.Column(db.Float, nullable=False)
     Pt1_Long = db.Column(db.Float, nullable=False)
     Pt1_Desc = db.Column(db.String(500), nullable=False)
-    Pt2_lat = db.Column(db.Float, nullable=False)
-    Pt2_long = db.Column(db.Float, nullable=False)
+    Pt2_Lat = db.Column(db.Float, nullable=False)
+    Pt2_Long = db.Column(db.Float, nullable=False)
     Pt2_Desc = db.Column(db.String(500), nullable=False)
-    User = db.relationship('User', backref='Trail', lazy=True)
+    User = db.relationship('User', backref='Trail')
 
     @validates('RouteType')
     def validate_RouteType(self, value):
@@ -71,42 +71,6 @@ class Trail(db.Model):
             raise ValidationError('Invalid Longitude')
         return value
     
-    @validates('Pt1_Desc')
-    def validate_Pt1_Desc(self, value):
-        if len(value) < 1:
-            raise ValidationError('Invalid Description')
-        return value
-    
-    @validates('Pt2_Desc')
-    def validate_Pt2_Desc(self, value):
-        if len(value) < 1:
-            raise ValidationError('Invalid Description')
-        return value
-    
-    @validates('TrailName')
-    def validate_TrailName(self, value):
-        if len(value) < 1:
-            raise ValidationError('Invalid Trail Name')
-        return value
-    
-    @validates('TrailDescription')
-    def validate_TrailDescription(self, value):
-        if len(value) < 1:
-            raise ValidationError('Invalid Trail Description')
-        return value
-    
-    @validates('TrailSummary')
-    def validate_TrailSummary(self, value):
-        if len(value) < 1:
-            raise ValidationError('Invalid Trail Summary')
-        return value
-    
-    @validates('Location')
-    def validate_Location(self, value):
-        if len(value) < 1:
-            raise ValidationError('Invalid Location')
-        return value
-    
     
 class TrailSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
@@ -124,9 +88,9 @@ class User(db.Model):
     UserID = db.Column(db.Integer, autoincrement = True, primary_key=True)
     Username = db.Column(db.String(50), nullable=False)
     Password = db.Column(db.String(50), nullable=False)
-    Email = db.Column(db.String(50), nullable=False)
+    Email_Address = db.Column(db.String(50), nullable=False)
     Role = db.Column(db.String(50), nullable=False)
-    Trails = db.relationship('Trail', backref='User', lazy=True)
+    Trails = db.relationship('Trail', backref='User')
 
     @validates('Role')
     def validate_Role(self, value):
@@ -150,13 +114,8 @@ class Feature(db.Model):
     __table_args__ = {'schema': 'CW2'}
     FeatureID = db.Column(db.Integer, autoincrement = True, primary_key=True)
     FeatureName = db.Column(db.String(50), nullable=False)
-    Trail_Features = db.relationship('Trail_Feature', backref='Feature', lazy=True)
+    Trail_Features = db.relationship('Trail_Feature', backref='Feature')
 
-    @validates('FeatureName')
-    def validate_FeatureName(self, value):
-        if len(value) < 1:
-            raise ValidationError('Invalid Feature Name')
-        return value
     
 class FeatureSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
@@ -170,7 +129,7 @@ class Trail_Feature (db.Model):
     __table_args__ = {'schema': 'CW2'}
     TrailID = db.Column(db.Integer, db.ForeignKey('Trail.TrailID'), primary_key=True)
     Trail_FeatureID = db.Column(db.Integer, db.ForeignKey('CW2.Feature.FeatureID'), primary_key=True)
-    Feature = db.relationship('Feature', backref='Trail_Feature', lazy=True)
+    Feature = db.relationship('Feature', backref='Trail_Feature')
     
 class Trail_FeatureSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
