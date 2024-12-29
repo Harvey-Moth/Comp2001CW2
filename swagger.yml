@@ -64,18 +64,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
-    delete:
-      operationId: "User.delete"
-      tags:
-        - "User"
-      summary: "Delete a user"
-      responses:
-        '200':
-          description: "User deleted"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/User"
+    
   /User/{id}:
     patch:
       operationId: "User.update"
@@ -94,6 +83,20 @@ paths:
       responses:
         '200':
           description: "User updated"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+    delete:
+      operationId: "User.delete"
+      tags:
+        - "User"
+      summary: "Delete a user"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        '200':
+          description: "User deleted"
           content:
             application/json:
               schema:
