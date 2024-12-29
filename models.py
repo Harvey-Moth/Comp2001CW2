@@ -2,6 +2,41 @@
 from marshmallow import fields, validates, ValidationError
 from config import db, ma
 
+class User(db.Model):
+    __tablename__ = 'User'
+    __table_args__ = {'schema': 'CW2'}
+    UserID = db.Column(db.Integer, autoincrement = True, primary_key=True)
+    Username = db.Column(db.String(50), nullable=False)
+    Password = db.Column(db.String(50), nullable=False)
+    Email_Address = db.Column(db.String(50), nullable=False)
+    Role = db.Column(db.String(50), nullable=False)
+    @validates('Role')
+    def validate_Role(self, value):
+        if value not in ['Admin', 'User']:
+            raise ValidationError('Invalid Role')
+        return value
+    
+    @validates('Email')
+    def validate_Email(self, value):
+        if len(value) < []:
+            raise ValidationError('Invalid Email')
+        return value
+    
+class UserSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = User
+        include_fk = True
+        load_instance = True
+        sqla_session = db.session
+
+
+Uschema = UserSchema()
+Userschemas = UserSchema(many=True)
+
+
+
+
+
 class Trail(db.Model):
     __tablename__ = 'Trail'
     __table_args__ = {'schema': 'CW2'}
@@ -14,14 +49,14 @@ class Trail(db.Model):
     Location = db.Column(db.String(500), nullable=False)
     ElevationGain = db.Column(db.Integer, nullable=False)
     RouteType = db.Column(db.String(500), nullable=False)
-    OwnerID = db.Column(db.integer, db.ForeignKey('CW2.User.UserID'),nullable=False)
+    OwnerID = db.Column(db.Integer, db.ForeignKey('CW2.User.UserID'),nullable=False)
     Pt1_Lat = db.Column(db.Float, nullable=False)
     Pt1_Long = db.Column(db.Float, nullable=False)
     Pt1_Desc = db.Column(db.String(500), nullable=False)
     Pt2_Lat = db.Column(db.Float, nullable=False)
     Pt2_Long = db.Column(db.Float, nullable=False)
     Pt2_Desc = db.Column(db.String(500), nullable=False)
-    User = db.relationship('User', backref='Trail')
+    User = db.relationship('User', backref='Trails')
 
     @validates('RouteType')
     def validate_RouteType(self, value):
@@ -79,52 +114,12 @@ class TrailSchema(ma.SQLAlchemyAutoSchema):
         load_instance = True
         sqla_session = db.session
 
-TrailSchema = TrailSchema()
+Tschema = TrailSchema()
 Trailschemas = TrailSchema(many=True)
 
 
 
-
-
-class User(db.Model):
-    __tablename__ = 'User'
-    __table_args__ = {'schema': 'CW2'}
-    UserID = db.Column(db.Integer, autoincrement = True, primary_key=True)
-    Username = db.Column(db.String(50), nullable=False)
-    Password = db.Column(db.String(50), nullable=False)
-    Email_Address = db.Column(db.String(50), nullable=False)
-    Role = db.Column(db.String(50), nullable=False)
-    Trails = db.relationship('Trail', backref='User')
-
-    @validates('Role')
-    def validate_Role(self, value):
-        if value not in ['Admin', 'User']:
-            raise ValidationError('Invalid Role')
-        return value
     
-    @validates('Email')
-    def validate_Email(self, value):
-        if len(value) < []:
-            raise ValidationError('Invalid Email')
-        return value
-    
-class UserSchema(ma.SQLAlchemyAutoSchema):
-    class Meta:
-        model = User
-        include_fk = True
-        load_instance = True
-        sqla_session = db.session
-
-
-UserSchema = UserSchema()
-Userschemas = UserSchema(many=True)
-
-
-
-
-
-
-
 
 
 
@@ -134,7 +129,6 @@ class Feature(db.Model):
     __table_args__ = {'schema': 'CW2'}
     FeatureID = db.Column(db.Integer, autoincrement = True, primary_key=True)
     FeatureName = db.Column(db.String(50), nullable=False)
-    Trail_Features = db.relationship('Trail_Feature', backref='Feature')
 
     
 class FeatureSchema(ma.SQLAlchemyAutoSchema):
@@ -145,16 +139,17 @@ class FeatureSchema(ma.SQLAlchemyAutoSchema):
         sqla_session = db.session
 
 
-FeatureSchema = FeatureSchema()
+Fschema = FeatureSchema()
 Featureschemas = FeatureSchema(many=True)
 
 
 class Trail_Feature (db.Model):
     __tablename__ = 'Trail_Feature'
     __table_args__ = {'schema': 'CW2'}
-    TrailID = db.Column(db.Integer, db.ForeignKey('Trail.TrailID'), primary_key=True)
+    TrailID = db.Column(db.Integer, db.ForeignKey('CW2.Trail.TrailID'), primary_key=True)
     Trail_FeatureID = db.Column(db.Integer, db.ForeignKey('CW2.Feature.FeatureID'), primary_key=True)
-    Feature = db.relationship('Feature', backref='Trail_Feature')
+    Feature = db.relationship('Feature', backref='Trail_Features')
+    Trail = db.relationship('Trail', backref='Trail_Features')
     
 class Trail_FeatureSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
@@ -163,5 +158,5 @@ class Trail_FeatureSchema(ma.SQLAlchemyAutoSchema):
         load_instance = True
         sqla_session = db.session
 
-Trail_FeatureSchema = Trail_FeatureSchema()
+TFschema = Trail_FeatureSchema()
 Trail_Featureschemas = Trail_FeatureSchema(many=True)
