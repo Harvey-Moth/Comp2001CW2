@@ -1,30 +1,81 @@
 # swagger.yml
 openapi: 3.0.0
 info: 
-  title: "RP Flask REST API"
-  description: "An API about people and notes"
+  title: "CW2 API"
+  description: "An API to grab data from the CW2 database"
   version: "1.0.0"
 
 
-# swagger.yml
 
-# ...
+
+
 
 servers:
   - url: "/api"
 
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
 
-# swagger.yml
 
-# ...
 
 paths:
-  /people:
-    get:
-      operationId: "people.read_all"
-      tags:
-        - "People"
-      summary: "Read the list of people"
-      responses:
-        "200":
-          description: "Successfully read people list"
+    /User
+      get:
+      operationId: "User.Get"
+        summary: "Get all the users"
+        responses:
+          '200':
+            description: "A list of all the users"
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/User"
+      post:
+        operationId: "User.Create"
+        summary: "Create a new user"
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        responses:
+          '200':
+            description: "User created"
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/User"
+          delete:
+            operationId: "User.Delete"
+            summary: "Delete a user"
+            responses:
+              '200':
+                description: "User deleted"
+                content:
+                  application/json:
+                    schema:
+                      $ref: "#/components/schemas/User"
+          patch:
+            operationId: "User.Update"
+            summary: "Update a user"
+            responses:
+              '200':
+                description: "User updated"
+                content:
+                  application/json:
+                    schema:
+                      $ref: "#/components/schemas/User"
+          
+    

@@ -76,8 +76,12 @@ class TrailSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Trail
         include_fk = True
+        load_instance = True
+        sqla_session = db.session
 
-    
+TrailSchema = TrailSchema()
+Trailschemas = TrailSchema(many=True)
+
 
 
 
@@ -108,6 +112,22 @@ class UserSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = User
         include_fk = True
+        load_instance = True
+        sqla_session = db.session
+
+
+UserSchema = UserSchema()
+Userschemas = UserSchema(many=True)
+
+
+
+
+
+
+
+
+
+
 
 class Feature(db.Model):
     __tablename__ = 'Feature'
@@ -121,7 +141,12 @@ class FeatureSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Feature
         include_fk = True
+        load_instance = True
+        sqla_session = db.session
 
+
+FeatureSchema = FeatureSchema()
+Featureschemas = FeatureSchema(many=True)
 
 
 class Trail_Feature (db.Model):
@@ -135,5 +160,8 @@ class Trail_FeatureSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Trail_Feature
         include_fk = True
+        load_instance = True
+        sqla_session = db.session
 
-
+Trail_FeatureSchema = Trail_FeatureSchema()
+Trail_Featureschemas = Trail_FeatureSchema(many=True)
