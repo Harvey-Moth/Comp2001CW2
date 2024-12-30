@@ -9,12 +9,12 @@ def getall():
     return Userschemas.dump(users)
 
 
-def getone(user_id):
-    user = User.query.filter(User.user_id == user_id).one_or_none()
+def getone(id):
+    user = User.query.filter(User.UserID == id).one_or_none()
     if user is not None:
         return Uschema.dump(user)
     else:
-        abort(404, f"User not found for Id: {user_id}")
+        abort(404, f"User not found for Id: {id}")
 
 def create(user):
     
@@ -23,22 +23,22 @@ def create(user):
     db.session.commit()
     return Uschema.dump(newuser)
 
-def update(user_id, user):
-    updateuser = User.query.filter(User.user_id == user_id).one_or_none()
+def update(id, user):
+    updateuser = User.query.filter(User.UserID == id).one_or_none()
     if updateuser is not None:
         update = Uschema.load(user, session=db.session)
-        update.user_id = updateuser.user_id
+        update.UserID = updateuser.UserID 
         db.session.merge(update)
         db.session.commit()
         return Uschema.dump(updateuser)
     else:
-        abort(404, f"User not found for Id: {user_id}")
+        abort(404, f"User not found for Id: {id}")
 
-def delete(user_id): 
-    user = User.query.filter(User.user_id == user_id).one_or_none()
+def delete(id): 
+    user = User.query.filter(User.UserID == id).one_or_none()
     if user is not None:
         db.session.delete(user)
         db.session.commit()
-        return make_response(f"User {user_id} deleted", 200)
+        return make_response(f"User {id} deleted", 200)
     else:
-        abort(404, f"User not found for Id: {user_id}")
+        abort(404, f"User not found for Id: {id}")

@@ -11,7 +11,7 @@ connex_app = connexion.App(__name__, specification_dir=basedir)
 
 database = 'COMP2001_HMoth'
 username = 'HMoth'
-password = ' SzcH781+'
+password = 'SzcH781+'
 encoded_password = urllib.parse.quote_plus(password)
 
 app = connex_app.app

@@ -21,15 +21,57 @@ components:
     User:
       type: object
       properties:
-        name:
+        Username:
           type: string
-        email:
+        Email:
           type: string
-        password:
+        Password:
+          type: string
+        Role:
+          type: string
+    Trail:
+      type: object
+      properties:
+        TrailName:
+          type: string
+        Length:
+          type: number
+          format: float
+        Difficulty:
+          type: string
+        TrailDescription:
+          type: string
+        TrailSummary:
+          type: string
+        Location:
+          type: string
+        ElevationGain:
+          type: integer
+        RouteType: 
+          type: string
+        OwnerID:
+          type: integer
+        Pt1_Lat:
+          type: number
+          format: float
+        Pt1_Long: 
+          type: number
+          format: float
+        Pt1_Desc:
+          type: string
+        Pt2_Lat:
+          type: number
+          format: float
+        Pt2_Long:
+          type: number
+          format: float
+        Pt2_Desc:
           type: string
 
+        
 
 
+  #User table
 paths:
   /User:
     get:
@@ -46,6 +88,7 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/User"
+    
     post:
       operationId: "User.create"
       tags:
@@ -56,6 +99,7 @@ paths:
         content:
           application/json:
             schema:
+              x-body-name: "user"
               $ref: "#/components/schemas/User"
       responses:
         '200':
@@ -78,6 +122,7 @@ paths:
         content:
           application/json:
             schema:
+              x-body-name: "user"
               $ref: "#/components/schemas/User"
       
       responses:
@@ -96,10 +141,114 @@ paths:
         - $ref: "#/components/parameters/id"
       responses:
         '200':
-          description: "User deleted"
+          description: "User has been deleted"
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
+    get: 
+      operationId: "User.getone"
+      tags:
+        - "User"
+      summary: "Get one user"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        '200':
+          description: "User has been found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+
+
+  # Trail table
+  /Trail:
+    get:
+      operationId: "Trail.getall"
+      tags:
+        - "Trail"
+      summary: "Get all the trails"
+      responses:
+        '200':
+          description: "A list of all the trails"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Trail"
+    
+    post:
+      operationId: "Trail.create"
+      tags:
+        - "Trail"
+      summary: "Create a new trail"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              x-body-name: "trail"
+              $ref: "#/components/schemas/Trail"
+      responses:
+        '200':
+          description: "Trail created"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Trail"
+    
+  /Trail/{id}:
+    patch:
+      operationId: "Trail.update"
+      tags:
+        - "Trail"
+      summary: "Update a trail"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              x-body-name: "trail"
+              $ref: "#/components/schemas/Trail"
+      
+      responses:
+        '200':
+          description: "Trail updated"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Trail"
+    delete:
+      operationId: "Trail.delete"
+      tags:
+        - "Trail"
+      summary: "Delete a trail"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        '200':
+          description: "Trail has been deleted"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Trail"
+    get: 
+      operationId: "Trail.getone"
+      tags:
+        - "Trail"
+      summary: "Get one trail"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        '200':
+          description: "Trail has been found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Trail"
         
   

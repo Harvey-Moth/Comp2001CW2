@@ -8,7 +8,7 @@ class User(db.Model):
     UserID = db.Column(db.Integer, autoincrement = True, primary_key=True)
     Username = db.Column(db.String(50), nullable=False)
     Password = db.Column(db.String(50), nullable=False)
-    Email_Address = db.Column(db.String(50), nullable=False)
+    Email = db.Column(db.String(50), nullable=False)
     Role = db.Column(db.String(50), nullable=False)
     @validates('Role')
     def validate_Role(self, value):
