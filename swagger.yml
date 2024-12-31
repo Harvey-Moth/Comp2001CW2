@@ -67,8 +67,18 @@ components:
           format: float
         Pt2_Desc:
           type: string
-
-        
+    Feature:
+      type: object
+      properties:
+        FeatureName:
+          type: string
+    TrailFeature:
+      type: object
+      properties:
+        TrailID:
+          type: integer
+        FeatureID:
+          type: integer
 
 
   #User table
@@ -251,4 +261,185 @@ paths:
               schema:
                 $ref: "#/components/schemas/Trail"
         
-  
+  #Feature table
+  /Feature:
+    get:
+      operationId: "Feature.getall"
+      tags:
+        - "Feature"
+      summary: "Get all the features"
+      responses:
+        '200':
+          description: "A list of all the features"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Feature"
+    
+    post:
+      operationId: "Feature.create"
+      tags:
+        - "Feature"
+      summary: "Create a new feature"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              x-body-name: "feature"
+              $ref: "#/components/schemas/Feature"
+      responses:
+        '200':
+          description: "Feature created"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Feature"
+    
+  /Feature/{id}:
+    patch:
+      operationId: "Feature.update"
+      tags:
+        - "Feature"
+      summary: "Update a feature"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              x-body-name: "feature"
+              $ref: "#/components/schemas/Feature"
+      
+      responses:
+        '200':
+          description: "Feature updated"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Feature"
+    delete:
+      operationId: "Feature.delete"
+      tags:
+        - "Feature"
+      summary: "Delete a feature"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        '200':
+          description: "Feature has been deleted"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Feature"
+    get: 
+      operationId: "Feature.getone"
+      tags:
+        - "Feature"
+      summary: "Get one feature"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        '200':
+          description: "Feature has been found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Feature"
+
+
+
+
+
+
+#Trail Feature table
+  /TrailFeature:
+    get:
+      operationId: "TrailFeature.getall"
+      tags:
+        - "TrailFeature"
+      summary: "Get all the trailfeatures"
+      responses:
+        '200':
+          description: "A list of all the trailfeatures"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TrailFeature"
+    
+    post:
+      operationId: "TrailFeature.create"
+      tags:
+        - "TrailFeature"
+      summary: "Create a new trailfeature"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              x-body-name: "trailfeature"
+              $ref: "#/components/schemas/TrailFeature"
+      responses:
+        '200':
+          description: "TrailFeature created"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TrailFeature"
+    
+  /TrailFeature/{id}:
+    patch:
+      operationId: "TrailFeature.update"
+      tags:
+        - "TrailFeature"
+      summary: "Update a trailfeature"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              x-body-name: "trailfeature"
+              $ref: "#/components/schemas/TrailFeature"
+      
+      responses:
+        '200':
+          description: "TrailFeature updated"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TrailFeature"
+    delete:
+      operationId: "TrailFeature.delete"
+      tags:
+        - "TrailFeature"
+      summary: "Delete a trailfeature"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        '200':
+          description: "TrailFeature has been deleted"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TrailFeature"
+    get: 
+      operationId: "TrailFeature.getone"
+      tags:
+        - "TrailFeature"
+      summary: "Get one trailfeature"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        '200':
+          description: "TrailFeature has been found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TrailFeature"

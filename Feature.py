@@ -1,50 +1,50 @@
 # app.py
 from flask import abort, make_response, request
 from config import db
-from models import Trail, Tschema, Trailschemas, TrailFeature
+from models import Feature, Fschema, Featureschemas, TrailFeature
 
 
 def getall():
-    Trails = Trail.query.all()
-    return Trailschemas.dump(Trails)
+    Features = Feature.query.all()
+    return Featureschemas.dump(Features)
 
 
 def getone(id):
-    trail = Trail.query.filter(Trail.TrailID == id).one_or_none()
-    if trail is not None:
-        return Tschema.dump(trail)
+    feature = Feature.query.filter(Feature.FeatureID == id).one_or_none()
+    if feature is not None:
+        return Fschema.dump(feature)
     else:
-        abort(404, f"Trail not found for Id: {id}")
+        abort(404, f"Feature not found for Id: {id}")
 
-def create(trail):
+def create(feature):
     
-    newtrail = Tschema.load(trail, session=db.session)
-    db.session.add(newtrail)
+    newfeature = Fschema.load(feature, session=db.session)
+    db.session.add(newfeature)
     db.session.commit()
-    return Tschema.dump(newtrail)
+    return Fschema.dump(newfeature)
 
-def update(id, trail):
-    updatetrail = Trail.query.filter(Trail.TrailID == id).one_or_none()
-    if updatetrail is not None:
-        update = Tschema.load(trail, session=db.session)
-        update.TrailID = updatetrail.TrailID 
+def update(id, feature):
+    updatefeature = Feature.query.filter(Feature.FeatureID == id).one_or_none()
+    if updatefeature is not None:
+        update = Fschema.load(feature, session=db.session)
+        update.FeatureID = updatefeature.FeatureID 
         db.session.merge(update)
         db.session.commit()
-        return Tschema.dump(updatetrail)
+        return Fschema.dump(updatefeature)
     else:
-        abort(404, f"Trail not found for Id: {id}")
+        abort(404, f"Feature not found for Id: {id}")
 
 def delete(id): 
-    trail = Trail.query.filter(Trail.TrailID == id).one_or_none()
-    featuresearch = TrailFeature.query.filter(TrailFeature.TrailID == id).all()
+    feature = Feature.query.filter(Feature.FeatureID == id).one_or_none()
+    featuresearch = TrailFeature.query.filter(TrailFeature.TrailFeatureID == id).all()
     if featuresearch is not None:
         for feature in featuresearch:
             db.session.delete(feature)
             db.session.commit()
-    if trail is not None:
-        db.session.delete(trail)
+    if feature is not None:
+        db.session.delete(feature)
         db.session.commit()
-        return make_response(f"Trail {id} deleted", 200)
+        return make_response(f"Feature {id} deleted", 200)
     else:
-        abort(404, f"Trail not found for Id: {id}")
+        abort(404, f"Feature not found for Id: {id}")
 

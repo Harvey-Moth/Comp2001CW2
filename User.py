@@ -35,27 +35,19 @@ def update(id, user):
         abort(404, f"User not found for Id: {id}")
 
 def delete(id): 
+    if id == 1:
+        abort(404, f"Admin user cannot be deleted")
     user = User.query.filter(User.UserID == id).one_or_none()
-    Ownersearch = Trail.query.filter(Trail.OwnerID == id).all()
-    if Ownersearch is not None:
-        featuresearch = TrailFeature.query.filter(TrailFeature.TrailID == id).all()
-        for trail in Ownersearch:
-            if featuresearch is not None:
-                for feature in featuresearch:
-                    db.session.delete(feature)
-                    db.session.commit()   
-            db.session.delete(trail)
-            db.session.commit()
-
-            
-
-
-
-    
-
+    Trails = Trail.query.filter(Trail.OwnerID == id).all()
     if user is not None:
+        if Trails is not None:
+            for trail in Trails:
+                trail.OwnerID = 1
+                db.session.add(trail)
+        db.session.commit()
         db.session.delete(user)
         db.session.commit()
         return make_response(f"User {id} deleted", 200)
     else:
         abort(404, f"User not found for Id: {id}")
+            
