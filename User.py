@@ -1,7 +1,7 @@
 # app.py
 from flask import abort, make_response, request
 from config import db
-from models import User, Uschema, Userschemas
+from models import User, Uschema, Userschemas, Trail, TrailFeature
 
 
 def getall():
@@ -36,6 +36,23 @@ def update(id, user):
 
 def delete(id): 
     user = User.query.filter(User.UserID == id).one_or_none()
+    Ownersearch = Trail.query.filter(Trail.OwnerID == id).all()
+    if Ownersearch is not None:
+        featuresearch = TrailFeature.query.filter(TrailFeature.TrailID == id).all()
+        for trail in Ownersearch:
+            if featuresearch is not None:
+                for feature in featuresearch:
+                    db.session.delete(feature)
+                    db.session.commit()   
+            db.session.delete(trail)
+            db.session.commit()
+
+            
+
+
+
+    
+
     if user is not None:
         db.session.delete(user)
         db.session.commit()

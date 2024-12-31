@@ -1,7 +1,7 @@
 # app.py
 from flask import abort, make_response, request
 from config import db
-from models import Trail, Tschema, Trailschemas
+from models import Trail, Tschema, Trailschemas, TrailFeature
 
 
 def getall():
@@ -36,9 +36,15 @@ def update(id, trail):
 
 def delete(id): 
     trail = Trail.query.filter(Trail.TrailID == id).one_or_none()
+    featuresearch = TrailFeature.query.filter(TrailFeature.TrailID == id).all()
+    if featuresearch is not None:
+        for feature in featuresearch:
+            db.session.delete(feature)
+            db.session.commit()
     if trail is not None:
         db.session.delete(trail)
         db.session.commit()
         return make_response(f"Trail {id} deleted", 200)
     else:
         abort(404, f"Trail not found for Id: {id}")
+

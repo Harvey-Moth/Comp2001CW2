@@ -143,20 +143,20 @@ Fschema = FeatureSchema()
 Featureschemas = FeatureSchema(many=True)
 
 
-class Trail_Feature (db.Model):
-    __tablename__ = 'Trail_Feature'
+class TrailFeature (db.Model):
+    __tablename__ = 'TrailFeature'
     __table_args__ = {'schema': 'CW2'}
     TrailID = db.Column(db.Integer, db.ForeignKey('CW2.Trail.TrailID'), primary_key=True)
-    Trail_FeatureID = db.Column(db.Integer, db.ForeignKey('CW2.Feature.FeatureID'), primary_key=True)
-    Feature = db.relationship('Feature', backref='Trail_Features')
-    Trail = db.relationship('Trail', backref='Trail_Features')
+    TrailFeatureID = db.Column(db.Integer, db.ForeignKey('CW2.Feature.FeatureID'), primary_key=True)
+    Feature = db.relationship('Feature', backref='TrailFeatures')
+    Trail = db.relationship('Trail', backref='TrailFeatures')
     
-class Trail_FeatureSchema(ma.SQLAlchemyAutoSchema):
+class TrailFeatureSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
-        model = Trail_Feature
+        model = TrailFeature
         include_fk = True
         load_instance = True
         sqla_session = db.session
 
-TFschema = Trail_FeatureSchema()
-Trail_Featureschemas = Trail_FeatureSchema(many=True)
+TFschema = TrailFeatureSchema()
+TrailFeatureschemas = TrailFeatureSchema(many=True)
