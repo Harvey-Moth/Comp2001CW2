@@ -16,7 +16,19 @@ components:
       in: "path"
       required: true
       schema:
-        type: "string"
+        type: "integer"
+    trailid:
+      name: "trailid"
+      in: "path"
+      required: true
+      schema:
+        type: "integer"
+    trailfeatureid:
+      name: "trailfeatureid"
+      in: "path"
+      required: true
+      schema:
+        type: "integer"
   schemas:
     User:
       type: object
@@ -79,6 +91,16 @@ components:
           type: integer
         FeatureID:
           type: integer
+    Userdetails:
+      type: object
+      required: 
+        - Email
+        - Password
+      properties:
+        Email:
+          type: string
+        Password:
+          type: string  
 
 
   #User table
@@ -393,42 +415,28 @@ paths:
                 $ref: "#/components/schemas/TrailFeature"
     
   /TrailFeature/{id}:
-    patch:
-      operationId: "TrailFeature.update"
-      tags:
-        - "TrailFeature"
-      summary: "Update a trailfeature"
-      parameters:
-        - $ref: "#/components/parameters/id"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              x-body-name: "trailfeature"
-              $ref: "#/components/schemas/TrailFeature"
+    # patch:
+    #   operationId: "TrailFeature.update"
+    #   tags:
+    #     - "TrailFeature"
+    #   summary: "Update a trailfeature"
+    #   parameters:
+    #     - $ref: "#/components/parameters/id"
+    #   requestBody:
+    #     required: true
+    #     content:
+    #       application/json:
+    #         schema:
+    #           x-body-name: "trailfeature"
+    #           $ref: "#/components/schemas/TrailFeature"
       
-      responses:
-        '200':
-          description: "TrailFeature updated"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/TrailFeature"
-    delete:
-      operationId: "TrailFeature.delete"
-      tags:
-        - "TrailFeature"
-      summary: "Delete a trailfeature"
-      parameters:
-        - $ref: "#/components/parameters/id"
-      responses:
-        '200':
-          description: "TrailFeature has been deleted"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/TrailFeature"
+    #   responses:
+    #     '200':
+    #       description: "TrailFeature updated"
+    #       content:
+    #         application/json:
+    #           schema:
+    #             $ref: "#/components/schemas/TrailFeature"
     get: 
       operationId: "TrailFeature.getone"
       tags:
@@ -443,3 +451,38 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/TrailFeature"
+  /TrailFeature/{trailfeatureid}/{trailid}:
+    delete:
+      operationId: "TrailFeature.delete"
+      tags:
+        - "TrailFeature"
+      summary: "Delete a trailfeature"
+      parameters:
+        - $ref: "#/components/parameters/trailfeatureid"
+        - $ref: "#/components/parameters/trailid"
+      responses:
+        '200':
+          description: "TrailFeature has been deleted"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TrailFeature"
+  /UserDetails:
+    post:
+      operationId: "User.Authenticate"
+      tags:
+        - "User"
+      summary: "Authenticate a user"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: 
+              $ref: "#/components/schemas/Userdetails"
+      responses:
+        '200':
+          description: "User authenticated"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Userdetails"

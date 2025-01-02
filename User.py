@@ -1,7 +1,37 @@
 # app.py
 from flask import abort, make_response, request
+import requests
 from config import db
-from models import User, Uschema, Userschemas, Trail, TrailFeature
+from models import User, Uschema, Userschemas, Trail
+
+
+
+def Authenticate():
+
+    auth_url = 'https://web.socem.plymouth.ac.uk/COMP2001/auth/api/users'
+    userdetails = request.get_json()
+
+
+
+    credentials = { 'Email': userdetails ["Email"], 'Password': userdetails["Password"]}
+
+    response = requests.post(auth_url, json=credentials)
+
+    if response.status_code == 200:
+        try:
+            if response.json() == ["Verified", "True"]:
+                return make_response(f"Authenticated successfully:")
+            else:
+                return make_response(f"User does not exist")
+        except requests.JSONDecodeError:
+            return make_response(f"Response is not valid JSON. Raw response content:")
+    else:
+        return make_response(f"Authentication failed with status code {response.status_code}")
+    
+
+
+
+
 
 
 def getall():

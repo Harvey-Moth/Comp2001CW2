@@ -35,11 +35,14 @@ def create(trailfeature):
 #     else:
 #         abort(404, f"TrailFeature not found for Id: {id}")
 
-def delete(id): 
-    trailfeature = TrailFeature.query.filter(TrailFeature.TrailFeatureID == id).one_or_none()
+def delete(trailfeatureid, trailid): 
+    trailfeature = TrailFeature.query.filter(TrailFeature.TrailFeatureID == trailfeatureid, TrailFeature.TrailID == trailid).one_or_none()
     if trailfeature is not None:
         db.session.delete(trailfeature)
         db.session.commit()
-        return make_response(f"TrailFeature {id} deleted", 200)
+        return make_response(f"TrailFeature {trailfeatureid, trailid} deleted", 200)
     else:
-        abort(404, f"TrailFeature not found for Id: {id}") # This is not going to work, as is.
+        abort(404, f"TrailFeature not found for Id: {trailfeatureid, trailid}") 
+
+
+
