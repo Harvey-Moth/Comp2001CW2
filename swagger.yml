@@ -79,6 +79,30 @@ components:
           format: float
         Pt2_Desc:
           type: string
+        Pt3_Lat:
+          type: number
+          format: float
+        Pt3_Long:
+          type: number
+          format: float
+        Pt3_Desc:
+          type: string
+        Pt4_Lat:
+          type: number
+          format: float
+        Pt4_Long:
+          type: number
+          format: float
+        Pt4_Desc:
+          type: string
+        Pt5_Lat:  
+          type: number
+          format: float
+        Pt5_Long:
+          type: number
+          format: float
+        Pt5_Desc:
+          type: string
     Feature:
       type: object
       properties:

@@ -56,6 +56,15 @@ class Trail(db.Model):
     Pt2_Lat = db.Column(db.Float, nullable=False)
     Pt2_Long = db.Column(db.Float, nullable=False)
     Pt2_Desc = db.Column(db.String(500), nullable=False)
+    Pt3_Lat = db.Column(db.Float, nullable=True)
+    Pt3_Long = db.Column(db.Float, nullable=True)
+    Pt3_Desc = db.Column(db.String(500), nullable=True)
+    Pt4_Lat = db.Column(db.Float, nullable=True)
+    Pt4_Long = db.Column(db.Float, nullable=True)
+    Pt4_Desc = db.Column(db.String(500), nullable=True)
+    Pt5_Lat = db.Column(db.Float, nullable=True)
+    Pt5_Long = db.Column(db.Float, nullable=True)
+    Pt5_Desc = db.Column(db.String(500), nullable=True)
     User = db.relationship('User', backref='Trails')
 
     @validates('RouteType')
@@ -102,6 +111,42 @@ class Trail(db.Model):
     
     @validates('Pt2_Long')
     def validate_Pt2_Long(self, value):
+        if value < -180 or value > 180:
+            raise ValidationError('Invalid Longitude')
+        return value
+    
+    @validates('Pt3_Lat')
+    def validate_Pt3_Lat(self, value):
+        if value < -90 or value > 90:
+            raise ValidationError('Invalid Latitude')
+        return value
+    
+    @validates('Pt3_Long')
+    def validate_Pt3_Long(self, value):
+        if value < -180 or value > 180:
+            raise ValidationError('Invalid Longitude')
+        return value
+    
+    @validates('Pt4_Lat')
+    def validate_Pt4_Lat(self, value):
+        if value < -90 or value > 90:
+            raise ValidationError('Invalid Latitude')
+        return value
+    
+    @validates('Pt4_Long')
+    def validate_Pt4_Long(self, value):
+        if value < -180 or value > 180:
+            raise ValidationError('Invalid Longitude')
+        return value
+    
+    @validates('Pt5_Lat')
+    def validate_Pt5_Lat(self, value):
+        if value < -90 or value > 90:
+            raise ValidationError('Invalid Latitude')
+        return value
+    
+    @validates('Pt5_Long')
+    def validate_Pt5_Long(self, value):
         if value < -180 or value > 180:
             raise ValidationError('Invalid Longitude')
         return value
