@@ -66,7 +66,7 @@ def update(id, user):
 
 def delete(id): 
     if id == 1:
-        abort(404, f"Admin user cannot be deleted")
+        abort(403, f"Admin user cannot be deleted")
     user = User.query.filter(User.UserID == id).one_or_none()
     Trails = Trail.query.filter(Trail.OwnerID == id).all()
     if user is not None:

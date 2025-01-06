@@ -113,7 +113,7 @@ components:
       properties:
         TrailID:
           type: integer
-        FeatureID:
+        TrailFeatureID:
           type: integer
     Userdetails:
       type: object
@@ -439,33 +439,11 @@ paths:
                 $ref: "#/components/schemas/TrailFeature"
     
   /TrailFeature/{id}:
-    # patch:
-    #   operationId: "TrailFeature.update"
-    #   tags:
-    #     - "TrailFeature"
-    #   summary: "Update a trailfeature"
-    #   parameters:
-    #     - $ref: "#/components/parameters/id"
-    #   requestBody:
-    #     required: true
-    #     content:
-    #       application/json:
-    #         schema:
-    #           x-body-name: "trailfeature"
-    #           $ref: "#/components/schemas/TrailFeature"
-      
-    #   responses:
-    #     '200':
-    #       description: "TrailFeature updated"
-    #       content:
-    #         application/json:
-    #           schema:
-    #             $ref: "#/components/schemas/TrailFeature"
     get: 
       operationId: "TrailFeature.getone"
       tags:
         - "TrailFeature"
-      summary: "Get one trailfeature"
+      summary: "Get selected trailfeatures tied to the featureID"
       parameters:
         - $ref: "#/components/parameters/id"
       responses:

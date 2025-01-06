@@ -11,9 +11,9 @@ def getall():
 
 
 def getone(id):
-    trailfeature = TrailFeature.query.filter(TrailFeature.TrailFeatureID == id).one_or_none() #Not really needed as is, would be better to check and get all the features attached to a given trail ID 
+    trailfeature = TrailFeature.query.filter(TrailFeature.TrailFeatureID == id).all() 
     if trailfeature is not None:
-        return TFschema.dump(trailfeature)
+        return TrailFeatureschemas.dump(trailfeature)
     else:
         abort(404, f"TrailFeature not found for Id: {id}")
 
