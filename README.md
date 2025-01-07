@@ -18,7 +18,7 @@ Using Python
 
 Using Docker 
 1. Install Docker desktop
-2.Start Docker
+2. Start Docker
 3. Run: docker pull harveymoth/comp2001cw2image
 4. Run: docker run -p 8000:8000 harveymoth/comp2001cw2image
 5. Open bowser and navigate to http://localhost:8000/
